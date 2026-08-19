@@ -1,3 +1,31 @@
+server:
+  port: ${PORT:4000}
+
 spring:
   application:
     name: welldone
+  datasource:
+    # Supabase 대시보드 > Project Settings > Database > Connection string (URI) 에서 확인
+    # 예: jdbc:postgresql://db.xxxxxxxxxxxx.supabase.co:5432/postgres
+    url: ${SUPABASE_DB_URL}
+    username: ${SUPABASE_DB_USERNAME:postgres}
+    password: ${SUPABASE_DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none   # 테이블은 supabase/schema.sql 로 직접 생성 (Hibernate가 자동 변경하지 않도록)
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: false
+
+app:
+  client-origin: ${CLIENT_ORIGIN:http://localhost:5173}
+  master-username: ${MASTER_USERNAME:admin}
+  master-password: ${MASTER_PASSWORD:changeme}
+  jwt-secret: ${JWT_SECRET:please-change-this-to-a-long-random-string}
+  jwt-expiration-ms: 2592000000 # 30일
+
+anthropic:
+  api-key: ${ANTHROPIC_API_KEY}
+  model: claude-sonnet-4-6
