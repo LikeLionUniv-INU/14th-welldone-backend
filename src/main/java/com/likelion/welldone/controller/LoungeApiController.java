@@ -44,9 +44,10 @@ public class LoungeApiController {
 
   private String nicknameForTag(String tag) {
     return switch (tag) {
-      case "NIGHT" -> "익명의 나이트워커";
-      case "DAY" -> "익명의 데이워커";
-      case "EVENING" -> "익명의 이브닝워커";
+      case "N" -> "익명의 나이트워커";
+      case "D" -> "익명의 데이워커";
+      case "E" -> "익명의 이브닝워커";
+      case "OFF" -> "익명의 휴무자";
       default -> "익명";
     };
   }
@@ -64,15 +65,7 @@ public class LoungeApiController {
   public ApiResponse<Map<String, Object>> getMain() {
     String duty = todayDutyType();
 
-    if ("OFF".equals(duty)) {
-      return ApiResponse.success(Map.of(
-          "myPoint", myPoint(),
-          "todayDutyType", "OFF",
-          "group", new java.util.HashMap<>() {{ put("group", null); }}.get("group")
-      ));
-    }
-
-    // TODO: 실제 팀원 평균 달성률/참여 인원 집계 쿼리로 교체
+    // TODO: 실제 팀원 평균 달성률/참여 인원 집계 쿼리로 교체 (D/E/N/OFF 공통 로직)
     Map<String, Object> group = Map.of(
         "groupName", "Team " + duty,
         "tag", duty,
@@ -93,9 +86,6 @@ public class LoungeApiController {
   @GetMapping("/talks")
   public ApiResponse<Map<String, Object>> getTalks() {
     String duty = todayDutyType();
-    if ("OFF".equals(duty)) {
-      return ApiResponse.success(Map.of("groupTag", "OFF", "talks", List.of()));
-    }
 
     List<Map<String, Object>> talks = loungeMessageRepository.findTop50ByGroupTagOrderByCreatedAtDesc(duty).stream()
         .map(m -> Map.<String, Object>of(
