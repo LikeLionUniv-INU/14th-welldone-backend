@@ -11,6 +11,9 @@ spring:
     username: ${SUPABASE_DB_USERNAME:postgres}
     password: ${SUPABASE_DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 3
+      minimum-idle: 1
   jpa:
     hibernate:
       ddl-auto: none   # 테이블은 supabase/schema.sql 로 직접 생성 (Hibernate가 자동 변경하지 않도록)

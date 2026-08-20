@@ -123,12 +123,16 @@ public class LoungeApiController {
 
   // ===== 31. 리워드 상품 목록 조회 =====
   // myPoint는 28번(듀티 라운지 메인) 응답값을 그대로 이어서 쓰므로 여기서는 내려주지 않음
-  // TODO: 실제 리워드 DB 테이블로 교체 (현재는 고정 목록)
+  // TODO: 실제 리워드 DB 테이블 + 실제 상품 이미지로 교체 (현재는 임시 목업 이미지 사용)
   @GetMapping("/rewards")
   public ApiResponse<Map<String, Object>> getRewards() {
     List<Map<String, Object>> rewards = List.of(
         Map.of("rewardId", 11, "name", "스타벅스 아메리카노 쿠폰", "requiredPoint", 1200,
-            "imageUrl", "https://cdn.welldone.app/reward/11.png")
+            "imageUrl", "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400"),
+        Map.of("rewardId", 12, "name", "GS25 모바일 상품권 5000원", "requiredPoint", 800,
+            "imageUrl", "https://images.unsplash.com/photo-1607083206968-13611e3d76db?w=400"),
+        Map.of("rewardId", 13, "name", "배달의민족 쿠폰 3000원", "requiredPoint", 500,
+            "imageUrl", "https://images.unsplash.com/photo-1526367790999-0150786686a2?w=400")
     );
     return ApiResponse.success(Map.of("rewards", rewards));
   }
