@@ -228,6 +228,7 @@ public class OnboardingApiController {
         routine.setName(r.path("routineName").asText());
         routine.setFrequency(r.path("cycle").asText());
         routine.setType("GENERAL");
+        routine.setScheduledDate(java.time.LocalDate.now()); // 오늘 날짜로 지정해야 홈 화면에서 조회됨
         routineRepository.save(routine);
       }
     }
