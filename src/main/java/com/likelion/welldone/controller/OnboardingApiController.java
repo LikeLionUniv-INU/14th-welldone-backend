@@ -7,10 +7,10 @@ import com.likelion.welldone.common.ApiException;
 import com.likelion.welldone.common.ApiResponse;
 import com.likelion.welldone.entity.*;
 import com.likelion.welldone.repository.*;
-import com.likelion.welldone.service.AnthropicService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import com.likelion.welldone.service.GeminiService;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -26,7 +26,7 @@ public class OnboardingApiController {
   private final OnboardingPreferenceRepository preferenceRepository;
   private final RoutineAnalysisRepository analysisRepository;
   private final RoutineRepository routineRepository;
-  private final AnthropicService anthropicService;
+  private final GeminiService geminiService;
   private final ObjectMapper objectMapper = JsonMapper.builder().build();
 
   public OnboardingApiController(ScheduleRepository scheduleRepository,
@@ -34,13 +34,13 @@ public class OnboardingApiController {
                                  OnboardingPreferenceRepository preferenceRepository,
                                  RoutineAnalysisRepository analysisRepository,
                                  RoutineRepository routineRepository,
-                                 AnthropicService anthropicService) {
+                                 GeminiService geminiService) {
     this.scheduleRepository = scheduleRepository;
     this.weeklyScheduleRepository = weeklyScheduleRepository;
     this.preferenceRepository = preferenceRepository;
     this.analysisRepository = analysisRepository;
     this.routineRepository = routineRepository;
-    this.anthropicService = anthropicService;
+    this.geminiService = geminiService;
   }
 
   // ===== 3. 스케줄표 이미지 업로드 =====
@@ -161,13 +161,14 @@ public class OnboardingApiController {
       JsonNode preferencesJson = objectMapper.createObjectNode()
           .set("q1Tags", objectMapper.readTree(pref.getQ1TagsJson() != null ? pref.getQ1TagsJson() : "[]"));
 
-      JsonNode result = anthropicService.generateRoutineSuggestion(scheduleJson, categories, preferencesJson);
+      JsonNode result = geminiService.generateRoutineSuggestion(scheduleJson, categories, preferencesJson);
 
       analysis.setStatus("DONE");
       analysis.setWeeklyBriefing(result.path("weeklyBriefing").asText());
       analysis.setGroupsJson(result.path("groups").toString());
       analysisRepository.save(analysis);
     } catch (Exception e) {
+      e.printStackTrace(); // TODO: 디버깅 끝나면 이 줄 지우기
       analysis.setStatus("FAILED");
       analysisRepository.save(analysis);
     }

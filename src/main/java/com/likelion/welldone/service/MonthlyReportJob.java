@@ -1,6 +1,8 @@
 package com.likelion.welldone.service;
 
 import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import com.likelion.welldone.entity.MonthlyReport;
 import com.likelion.welldone.entity.Routine;
 import com.likelion.welldone.repository.MonthlyReportRepository;
@@ -9,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import tools.jackson.databind.ObjectMapper;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -28,15 +29,15 @@ public class MonthlyReportJob {
 
   private final RoutineRepository routineRepository;
   private final MonthlyReportRepository monthlyReportRepository;
-  private final AnthropicService anthropicService;
-  private final ObjectMapper objectMapper = new ObjectMapper();
+  private final GeminiService geminiService;
+  private final ObjectMapper objectMapper = JsonMapper.builder().build();
 
   public MonthlyReportJob(RoutineRepository routineRepository,
                           MonthlyReportRepository monthlyReportRepository,
-                          AnthropicService anthropicService) {
+                          GeminiService geminiService) {
     this.routineRepository = routineRepository;
     this.monthlyReportRepository = monthlyReportRepository;
-    this.anthropicService = anthropicService;
+    this.geminiService = geminiService;
   }
 
   // 초 분 시 일 월 요일 -> 매월 1일 00:00:00
@@ -57,7 +58,7 @@ public class MonthlyReportJob {
           "completedRoutines", completed
       );
 
-      JsonNode result = anthropicService.generateMonthlyReport(userSummary);
+      JsonNode result = geminiService.generateMonthlyReport(userSummary);
 
       MonthlyReport report = monthlyReportRepository.findById(monthKey).orElseGet(MonthlyReport::new);
       report.setMonth(monthKey);

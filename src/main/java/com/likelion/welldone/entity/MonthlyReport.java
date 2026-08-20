@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.Instant;
 
@@ -36,11 +38,11 @@ public class MonthlyReport {
   @Column(name = "guide_message")
   private String guideMessage;
 
-  // [{ "category": "신체적 건강", "achievementRate": 90 }, ...] (풀네임으로 저장, 응답 시 2글자로 변환)
+  @JdbcTypeCode(SqlTypes.JSON)
   @Column(name = "category_summary", columnDefinition = "jsonb")
   private String categorySummaryJson;
 
-  // [{ "label": "7월 2주차 야간근무", "reason": "...", "tip": "..." }, ...]
+  @JdbcTypeCode(SqlTypes.JSON)
   @Column(name = "risk_periods", columnDefinition = "jsonb")
   private String riskPeriodsJson;
 

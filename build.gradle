@@ -23,6 +23,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
 	// Supabase = Postgres 이므로 mysql-connector-j 대신 postgresql 드라이버 사용
 	runtimeOnly 'org.postgresql:postgresql'
