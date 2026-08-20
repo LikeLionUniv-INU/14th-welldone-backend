@@ -10,7 +10,7 @@
 
 ---
 
-## 📖 서비스 소개
+## 서비스 소개
 
 `Well Done`은 **불규칙한 교대 근무로 자기관리가 어려운 사람들**을 위한 웰니스 루틴 서비스입니다.
 
@@ -23,7 +23,7 @@
 ---
 
 
-## 🛠 기술 스택
+## 기술 스택
 
 ### Backend
 | 분류 | 기술 |
@@ -47,7 +47,7 @@
 
 ---
 
-## 🏗 아키텍처
+## 아키텍처
 
 ```
 [Client (Frontend, Vercel)]
@@ -79,7 +79,7 @@
 
 ---
 
-## 👥 팀 구성
+## 팀 구성
 
 | Backend | jeon1105 |
 
@@ -87,7 +87,7 @@
 
 ---
 
-## 🚀 실행 방법
+## 실행 방법
 
 ```bash
 git clone https://github.com/LikeLionUniv-INU/14th-welldone-backend.git
