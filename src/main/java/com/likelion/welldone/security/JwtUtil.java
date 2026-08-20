@@ -14,34 +14,34 @@ public class JwtUtil {
   @Value("${app.jwt-secret}")
   private String jwtSecret;
 
-  @Value("${app.jwt-expiration-ms}")
-  private long jwtExpirationMs;
+  private static final long ACCESS_EXPIRATION_MS = 1000L * 60 * 60 * 2;       // 2시간
+  private static final long REFRESH_EXPIRATION_MS = 1000L * 60 * 60 * 24 * 14; // 14일
 
   private SecretKey key() {
-    // jjwt 0.12.x 는 HS256 기준 최소 32바이트 이상의 시크릿을 요구합니다.
-    // .env 의 JWT_SECRET 을 충분히 긴 랜덤 문자열로 설정하세요.
     return Keys.hmacShaKeyFor(jwtSecret.getBytes());
   }
 
-  public String generateToken(String username) {
-    Date now = new Date();
-    Date expiry = new Date(now.getTime() + jwtExpirationMs);
+  public String generateAccessToken(String loginId) {
+    return generateToken(loginId, ACCESS_EXPIRATION_MS);
+  }
 
+  public String generateRefreshToken(String loginId) {
+    return generateToken(loginId, REFRESH_EXPIRATION_MS);
+  }
+
+  private String generateToken(String loginId, long expirationMs) {
+    Date now = new Date();
     return Jwts.builder()
-        .subject(username)
+        .subject(loginId)
         .issuedAt(now)
-        .expiration(expiry)
+        .expiration(new Date(now.getTime() + expirationMs))
         .signWith(key())
         .compact();
   }
 
-  public String extractUsername(String token) {
-    return Jwts.parser()
-        .verifyWith(key())
-        .build()
-        .parseSignedClaims(token)
-        .getPayload()
-        .getSubject();
+  public String extractLoginId(String token) {
+    return Jwts.parser().verifyWith(key()).build()
+        .parseSignedClaims(token).getPayload().getSubject();
   }
 
   public boolean isValid(String token) {

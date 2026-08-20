@@ -48,7 +48,6 @@ public class MonthlyReportJob {
     log.info("[monthlyReport] {} 리포트 생성 시작", monthKey);
 
     try {
-      // TODO: 실제 지난 달 routine 완료 데이터 집계 쿼리로 교체
       List<Routine> routines = routineRepository.findByScheduledDateBetween(
           lastMonth.atDay(1), lastMonth.atEndOfMonth());
 
@@ -62,10 +61,15 @@ public class MonthlyReportJob {
 
       MonthlyReport report = monthlyReportRepository.findById(monthKey).orElseGet(MonthlyReport::new);
       report.setMonth(monthKey);
-      report.setTotalAchievementRate(result.path("totalAchievementRate").asDouble());
-      report.setEngineMode(result.path("engineMode").asText());
-      report.setGoldenTimeRecoveryRate(result.path("goldenTimeRecoveryRate").asDouble());
-      report.setNextMonthRiskWeeksJson(result.path("nextMonthRiskWeeks").toString());
+      report.setAchievementRate(result.path("achievementRate").asDouble());
+      report.setActiveDays(result.path("activeDays").asInt());
+      report.setBadge(result.path("badge").asText());
+      report.setBadgeLabel(result.path("badgeLabel").asText());
+      report.setBadgeMessage(result.path("badgeMessage").asText());
+      report.setRecoveryRate(result.path("recoveryRate").asDouble());
+      report.setGuideMessage(result.path("guideMessage").asText());
+      report.setCategorySummaryJson(result.path("categorySummary").toString());
+      report.setRiskPeriodsJson(result.path("riskPeriods").toString());
 
       monthlyReportRepository.save(report);
       log.info("[monthlyReport] {} 리포트 생성 완료", monthKey);

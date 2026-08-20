@@ -24,4 +24,10 @@ public class LoungeMessage {
 
   @Column(name = "created_at", nullable = false)
   private Instant createdAt = Instant.now();
+
+  @Column(name = "group_tag")
+  private String groupTag; // DAY | EVENING | NIGHT
+
+  @Column(nullable = false)
+  private String nickname;
 }

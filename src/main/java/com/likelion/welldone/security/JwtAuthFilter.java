@@ -24,7 +24,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     this.jwtUtil = jwtUtil;
   }
 
-  private static final String[] PUBLIC_PATHS = {"/api/auth/login", "/health"};
+  private static final String[] PUBLIC_PATHS = {"/api/auth/login", "/api/auth/signup", "/health"};
 
   @Override
   protected boolean shouldNotFilter(HttpServletRequest request) {
@@ -51,7 +51,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
       return;
     }
 
-    request.setAttribute("username", jwtUtil.extractUsername(token));
+    request.setAttribute("loginId", jwtUtil.extractLoginId(token));
     chain.doFilter(request, response);
   }
 }

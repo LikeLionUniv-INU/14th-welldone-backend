@@ -58,4 +58,16 @@ public class Routine {
 
   @Column(name = "created_at", nullable = false)
   private Instant createdAt = Instant.now();
+
+  @Column(name = "recommended_duration")
+  private String recommendedDuration; // 예: "Youtube 30분"
+
+  @Column(name = "video_url")
+  private String videoUrl;
+
+  @Column(name = "is_verification_required", nullable = false)
+  private boolean verificationRequired = false;
+
+  @Column(name = "category")
+  private String category; // 온보딩에서 선택한 웰니스 카테고리 풀네임과 매칭 (예: "신체적 건강")
 }
