@@ -206,6 +206,7 @@ public class HomeApiController {
           item.put("time", r.getScheduledTime() != null ? r.getScheduledTime().toString() : null);
           item.put("type", "ROUTINE");
           item.put("title", r.getName());
+          item.put("duration", r.getDurationMinutes() != null ? r.getDurationMinutes() + "분" : null);
           item.put("isOverdue", "HOLD".equals(r.getStatus()));
           return item;
         })

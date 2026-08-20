@@ -132,6 +132,7 @@ public class LoungeApiController {
   }
 
   // ===== 31. 리워드 상품 목록 조회 =====
+  // myPoint는 28번(듀티 라운지 메인) 응답값을 그대로 이어서 쓰므로 여기서는 내려주지 않음
   // TODO: 실제 리워드 DB 테이블로 교체 (현재는 고정 목록)
   @GetMapping("/rewards")
   public ApiResponse<Map<String, Object>> getRewards() {
@@ -139,6 +140,6 @@ public class LoungeApiController {
         Map.of("rewardId", 11, "name", "스타벅스 아메리카노 쿠폰", "requiredPoint", 1200,
             "imageUrl", "https://cdn.welldone.app/reward/11.png")
     );
-    return ApiResponse.success(Map.of("myPoint", myPoint(), "rewards", rewards));
+    return ApiResponse.success(Map.of("rewards", rewards));
   }
 }
