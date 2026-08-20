@@ -33,7 +33,7 @@
 | Build Tool | Gradle |
 | JSON | Jackson 3.x (`tools.jackson`) |
 | Database | PostgreSQL (Supabase, Session Pooler) |
-| AI | Anthropic API |
+| AI |Gemini API |
 
 ### Infra / DevOps
 | 분류 | 기술 |
@@ -59,7 +59,7 @@
 [Spring Boot 4.0 (Gabia g-cloud, Ubuntu 22.04)]
         │
         ├── Supabase PostgreSQL (Session Pooler)
-        └── Anthropic API (AI 루틴 생성 / 월간 리포트 생성)
+        └── Gemini API (AI 루틴 생성 / 월간 리포트 생성)
 ```
 
 ---
@@ -74,8 +74,6 @@
 | My | 주간 기록, 월간 AI 리포트(달성률/카테고리/골든타임/다음달 예측) |
 | Lounge | 듀티 라운지 메인, 듀티톡 조회·작성, 리워드샵 |
 | Settings | 스케줄표 갱신 요청 |
-
-자세한 API 명세(Request/Response 예시 포함)는 Notion 문서에서 확인할 수 있습니다.
 
 ---
 
